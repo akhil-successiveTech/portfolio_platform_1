@@ -19,12 +19,16 @@ export default function Portfolio({ params }) {
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold">{portfolio.student.name}'s Portfolio</h1>
-      <div className="mt-4 space-y-4">
-        {portfolio.experiences.map((exp) => (
-          <ExperienceCard key={exp._id} data={exp} />
-        ))}
-      </div>
+      <h1 className="text-3xl font-bold">Public Portfolio</h1>
+      {portfolio.experiences?.length ? (
+        <div className="mt-4 space-y-4">
+          {portfolio.experiences.map((exp) => (
+            <ExperienceCard key={exp._id} data={exp} />
+          ))}
+        </div>
+      ) : (
+        <p className="text-gray-600 mt-4">No accepted experiences yet.</p>
+      )}
     </div>
   );
 }

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import API from "@/utils/api";
 import { useRouter } from "next/navigation";
+import PrivateRoute from "@/components/PrivateRoute";
 
 export default function AddExperiencePage() {
   const router = useRouter();
@@ -15,47 +16,45 @@ export default function AddExperiencePage() {
     setError("");
 
     try {
-      await API.post("/org/experiences", form, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // if JWT required
-        },
-      });
-      router.push("/org/experiments");
+      await API.post("/org/experiences", form);
+      router.push("/dashboard/org/experiments");
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.message || "Failed to add experience");
+      setError(err.message || "Failed to add experience");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Add New Experience</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          placeholder="Title"
-          className="border p-2 w-full rounded"
-          value={form.title}
-          onChange={(e) => setForm({ ...form, title: e.target.value })}
-        />
-        <textarea
-          placeholder="Description"
-          className="border p-2 w-full rounded"
-          value={form.description}
-          onChange={(e) => setForm({ ...form, description: e.target.value })}
-        />
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded"
-          disabled={loading}
-        >
-          {loading ? "Saving..." : "Save"}
-        </button>
-      </form>
+    <PrivateRoute allow={["organisation"]}>
+      <div className="p-6">
+        <h1 className="text-2xl font-bold mb-4">Add New Experience</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="text"
+            placeholder="Title"
+            className="border p-2 w-full rounded"
+            value={form.title}
+            onChange={(e) => setForm({ ...form, title: e.target.value })}
+          />
+          <textarea
+            placeholder="Description"
+            className="border p-2 w-full rounded"
+            value={form.description}
+            onChange={(e) => setForm({ ...form, description: e.target.value })}
+          />
+          <button
+            type="submit"
+            className="bg-blue-600 text-white px-4 py-2 rounded"
+            disabled={loading}
+          >
+            {loading ? "Saving..." : "Save"}
+          </button>
+        </form>
 
-      {error && <p className="text-red-500 mt-2">{error}</p>}
-    </div>
+        {error && <p className="text-red-500 mt-2">{error}</p>}
+      </div>
+    </PrivateRoute>
   );
 }

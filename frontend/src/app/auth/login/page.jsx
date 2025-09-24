@@ -10,16 +10,29 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+
+    if (!email || !password) {
+      setError("Email and password are required");
+      return;
+    }
+
+    setLoading(true);
     try {
       const res = await API.post("/auth/login", { email, password });
       loginUser(res.data.token);
-      router.push("/dashboard"); // redirect based on role later
+      // Decode is handled in context. Redirect by role:
+      const { role } = JSON.parse(atob(res.data.token.split(".")[1]));
+      if (role === "organisation") router.push("/dashboard/org");
+      else router.push("/dashboard/student");
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed");
+      setError(err.message || "Login failed");
     }
+    setLoading(false);
   };
 
   return (
@@ -40,7 +53,9 @@ export default function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button className="bg-blue-500 text-white p-2 w-full">Login</button>
+        <button className="bg-blue-600 hover:bg-blue-700 transition text-white p-2 w-full rounded" disabled={loading}>
+          {loading ? "Signing in..." : "Login"}
+        </button>
         {error && <p className="text-red-500 mt-2">{error}</p>}
       </form>
     </div>

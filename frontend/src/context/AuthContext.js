@@ -6,19 +6,27 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
     if (token) {
-      const decoded = jwtDecode(token);
-      setUser({ ...decoded, token });
+      try {
+        const decoded = jwtDecode(token);
+        // Backend token payload: { id, role }
+        setUser({ id: decoded.id, role: decoded.role, token });
+      } catch (e) {
+        localStorage.removeItem("token");
+        setUser(null);
+      }
     }
+    setLoading(false);
   }, []);
 
   const loginUser = (token) => {
     localStorage.setItem("token", token);
     const decoded = jwtDecode(token);
-    setUser({ ...decoded, token });
+    setUser({ id: decoded.id, role: decoded.role, token });
   };
 
   const logoutUser = () => {
@@ -27,7 +35,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loginUser, logoutUser }}>
+    <AuthContext.Provider value={{ user, loading, loginUser, logoutUser }}>
       {children}
     </AuthContext.Provider>
   );
