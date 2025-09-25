@@ -6,14 +6,22 @@ import PrivateRoute from "@/components/PrivateRoute";
 
 export default function AddExperiencePage() {
   const router = useRouter();
-  const [form, setForm] = useState({ title: "", description: "" });
+  const [form, setForm] = useState({ title: "", description: "", studentId: "", startDate: "", endDate: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
+    setSuccess("");
+
+    if (!form.title || !form.description || !form.studentId) {
+      setError("Title, description, and student ID are required");
+      setLoading(false);
+      return;
+    }
 
     try {
       await API.post("/org/experiences", form);
@@ -44,6 +52,33 @@ export default function AddExperiencePage() {
             value={form.description}
             onChange={(e) => setForm({ ...form, description: e.target.value })}
           />
+          <input
+            type="text"
+            placeholder="Student ID"
+            className="border p-2 w-full rounded"
+            value={form.studentId}
+            onChange={(e) => setForm({ ...form, studentId: e.target.value })}
+          />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm text-gray-600 mb-1">Start Date</label>
+              <input
+                type="date"
+                className="border p-2 w-full rounded"
+                value={form.startDate}
+                onChange={(e) => setForm({ ...form, startDate: e.target.value })}
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-gray-600 mb-1">End Date</label>
+              <input
+                type="date"
+                className="border p-2 w-full rounded"
+                value={form.endDate}
+                onChange={(e) => setForm({ ...form, endDate: e.target.value })}
+              />
+            </div>
+          </div>
           <button
             type="submit"
             className="bg-blue-600 text-white px-4 py-2 rounded"
@@ -54,6 +89,7 @@ export default function AddExperiencePage() {
         </form>
 
         {error && <p className="text-red-500 mt-2">{error}</p>}
+        {success && <p className="text-green-600 mt-2">{success}</p>}
       </div>
     </PrivateRoute>
   );

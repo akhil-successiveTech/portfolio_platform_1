@@ -14,12 +14,21 @@ dotenv.config();
 const app = express();
 
 // middleware
-app.use(cors());
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || "http://localhost:5000";
+app.use(
+  cors({
+    origin: FRONTEND_ORIGIN,
+    credentials: false,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use(helmet());
 app.use(express.json());
 app.use("/uploads", express.static("src/uploads")); // serve files
 
 // routes
+app.get("/api/health", (req, res) => res.json({ ok: true }));
 app.use("/api/auth", authRoutes);
 app.use("/api/org", orgRoutes);
 app.use("/api/student", studentRoutes);
@@ -32,7 +41,7 @@ app.use(errorMiddleware);
 if (process.env.NODE_ENV !== "test") {
   connectDB()
     .then(() => {
-      const PORT = process.env.PORT || 4000;
+      const PORT = process.env.PORT || 5001;
       app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
     })
     .catch((err) => console.log(err));

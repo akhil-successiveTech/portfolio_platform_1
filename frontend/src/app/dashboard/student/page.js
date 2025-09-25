@@ -44,23 +44,23 @@ export default function StudentPage() {
           ) : (
             <ul className="space-y-2 mt-2">
               {experiences.map((exp) => (
-                <li key={exp._id} className="border rounded p-3 bg-white shadow-sm">
-                  <div className="flex items-start justify-between">
+                <li key={exp._id} className="border rounded-lg p-4 bg-white shadow-sm hover:shadow transition">
+                  <div className="flex items-start justify-between gap-4">
                     <div>
                       <p className="font-medium">{exp.title}</p>
                       <p className="text-sm text-gray-600">{exp.description}</p>
                       <p className="text-xs mt-1 capitalize">Status: {exp.status}</p>
                     </div>
-                    <div className="space-x-2">
-                      <button onClick={() => act(exp._id, "accept")} className="px-3 py-1 bg-green-600 text-white rounded text-sm">
+                    <div className="space-x-2 shrink-0">
+                      <button onClick={() => act(exp._id, "accept")} className="px-3 py-1 bg-green-600 hover:bg-green-700 transition text-white rounded text-sm">
                         Accept
                       </button>
-                      <button onClick={() => act(exp._id, "decline")} className="px-3 py-1 bg-red-600 text-white rounded text-sm">
+                      <button onClick={() => act(exp._id, "decline")} className="px-3 py-1 bg-red-600 hover:bg-red-700 transition text-white rounded text-sm">
                         Decline
                       </button>
                     </div>
                   </div>
-                </li)
+                </li>
               ))}
             </ul>
           )}

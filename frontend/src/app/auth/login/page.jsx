@@ -36,27 +36,38 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center">
-      <form className="p-6 border rounded" onSubmit={handleSubmit}>
-        <h2 className="text-xl mb-4">Login</h2>
-        <input
-          type="email"
-          placeholder="Email"
-          className="border p-2 mb-3 w-full"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          className="border p-2 mb-3 w-full"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button className="bg-blue-600 hover:bg-blue-700 transition text-white p-2 w-full rounded" disabled={loading}>
-          {loading ? "Signing in..." : "Login"}
-        </button>
-        {error && <p className="text-red-500 mt-2">{error}</p>}
+    <div className="min-h-screen flex justify-center items-center bg-gradient-to-b from-slate-50 to-slate-100 px-4">
+      <form className="w-full max-w-md bg-white p-6 md:p-8 rounded-xl shadow-sm border border-slate-200" onSubmit={handleSubmit}>
+        <h2 className="text-2xl font-semibold mb-6 text-slate-800">Welcome back</h2>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm text-slate-600 mb-1">Email</label>
+            <input
+              type="email"
+              placeholder="you@example.com"
+              className="border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition rounded w-full p-2"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="block text-sm text-slate-600 mb-1">Password</label>
+            <input
+              type="password"
+              placeholder="••••••••"
+              className="border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition rounded w-full p-2"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          {error && <p className="text-red-600 text-sm">{error}</p>}
+          <button className="bg-blue-600 hover:bg-blue-700 active:scale-[0.99] transition text-white p-2.5 w-full rounded-md shadow-sm" disabled={loading}>
+            {loading ? "Signing in..." : "Login"}
+          </button>
+          <p className="text-sm text-slate-600 text-center">
+            No account? <a href="/auth/register" className="text-blue-600 hover:underline">Register</a>
+          </p>
+        </div>
       </form>
     </div>
   );

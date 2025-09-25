@@ -1,9 +1,9 @@
 import axios from "axios";
 
 // Use env for backend API base URL. Create `.env.local` with NEXT_PUBLIC_API_URL
-// Example: NEXT_PUBLIC_API_URL=http://localhost:5000/api
+// Example: NEXT_PUBLIC_API_URL=http://localhost:5001/api
 const API = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api",
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api",
   withCredentials: false,
 });
 

@@ -5,7 +5,7 @@
 Create `frontend/.env.local` with the API base URL:
 
 ```
-NEXT_PUBLIC_API_URL=http://localhost:5000/api
+NEXT_PUBLIC_API_URL=http://localhost:5001/api
 ```
 
 The frontend uses Axios. The Authorization header is set automatically from `localStorage` token.

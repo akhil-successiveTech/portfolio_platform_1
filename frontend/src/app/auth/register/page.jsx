@@ -44,43 +44,60 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center">
-      <form className="p-6 border rounded" onSubmit={handleSubmit}>
-        <h2 className="text-xl mb-4">Register</h2>
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          className="border p-2 mb-3 w-full"
-          onChange={handleChange}
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          className="border p-2 mb-3 w-full"
-          onChange={handleChange}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          className="border p-2 mb-3 w-full"
-          onChange={handleChange}
-        />
-        <select
-          name="role"
-          className="border p-2 mb-3 w-full"
-          value={form.role}
-          onChange={handleChange}
-        >
-          <option value="student">Student</option>
-          <option value="organisation">Organisation</option>
-        </select>
-        <button className="bg-green-600 hover:bg-green-700 transition text-white p-2 w-full rounded" disabled={loading}>
-          {loading ? "Registering..." : "Register"}
-        </button>
-        {error && <p className="text-red-500 mt-2">{error}</p>}
+    <div className="min-h-screen flex justify-center items-center bg-gradient-to-b from-slate-50 to-slate-100 px-4">
+      <form className="w-full max-w-md bg-white p-6 md:p-8 rounded-xl shadow-sm border border-slate-200" onSubmit={handleSubmit}>
+        <h2 className="text-2xl font-semibold mb-6 text-slate-800">Create your account</h2>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm text-slate-600 mb-1">Name</label>
+            <input
+              type="text"
+              name="name"
+              placeholder="Full name"
+              className="border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition rounded w-full p-2"
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label className="block text-sm text-slate-600 mb-1">Email</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="you@example.com"
+              className="border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition rounded w-full p-2"
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label className="block text-sm text-slate-600 mb-1">Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="••••••••"
+              className="border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition rounded w-full p-2"
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label className="block text-sm text-slate-600 mb-1">Role</label>
+            <select
+              name="role"
+              className="border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition rounded w-full p-2"
+              value={form.role}
+              onChange={handleChange}
+            >
+              <option value="student">Student</option>
+              <option value="organisation">Organisation</option>
+            </select>
+          </div>
+          {error && <p className="text-red-600 text-sm">{error}</p>}
+          <button className="bg-green-600 hover:bg-green-700 active:scale-[0.99] transition text-white p-2.5 w-full rounded-md shadow-sm" disabled={loading}>
+            {loading ? "Registering..." : "Register"}
+          </button>
+          <p className="text-sm text-slate-600 text-center">
+            Already have an account? <a href="/auth/login" className="text-blue-600 hover:underline">Login</a>
+          </p>
+        </div>
       </form>
     </div>
   );

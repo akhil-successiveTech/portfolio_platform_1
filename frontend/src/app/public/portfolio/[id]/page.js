@@ -19,16 +19,21 @@ export default function Portfolio({ params }) {
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold">Public Portfolio</h1>
-      {portfolio.experiences?.length ? (
-        <div className="mt-4 space-y-4">
-          {portfolio.experiences.map((exp) => (
-            <ExperienceCard key={exp._id} data={exp} />
-          ))}
-        </div>
-      ) : (
-        <p className="text-gray-600 mt-4">No accepted experiences yet.</p>
-      )}
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold">Public Portfolio</h1>
+        {portfolio.experiences?.length ? (
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+            {portfolio.experiences.map((exp) => (
+              <div key={exp._id} className="border rounded-lg p-4 bg-white shadow-sm">
+                <h3 className="font-semibold text-lg">{exp.title}</h3>
+                <p className="text-sm text-slate-700">{exp.description}</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-600 mt-4">No accepted experiences yet.</p>
+        )}
+      </div>
     </div>
   );
 }
