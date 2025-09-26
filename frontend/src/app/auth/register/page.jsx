@@ -40,6 +40,7 @@ export default function Register() {
       setError(err.message || "Registration failed");
     } finally {
       setLoading(false);
+      console.log("Form details submitted:", form);
     }
   };
 
